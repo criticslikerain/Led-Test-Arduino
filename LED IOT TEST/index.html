@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control LED</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Control LED</h1>
+    <button id="onButton">Turn ON</button>
+    <button id="offButton">Turn OFF</button>
+    <p id="response"></p>
+</div>
+
+<script>
+    document.getElementById("onButton").addEventListener("click", function() {
+        fetch('https://your-netlify-site/.netlify/functions/control-led?action=on')
+            .then(response => response.text())
+            .then(data => document.getElementById("response").innerText = data)
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById("offButton").addEventListener("click", function() {
+        fetch('https://your-netlify-site/.netlify/functions/control-led?action=off')
+            .then(response => response.text())
+            .then(data => document.getElementById("response").innerText = data)
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
+</body>
+</html>
