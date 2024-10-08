@@ -34,15 +34,17 @@
 </div>
 
 <script>
+    const ESP32_IP = 'http://<ESP32-IP-ADDRESS>'; // Replace with your ESP32 IP
+
     document.getElementById("onButton").addEventListener("click", function() {
-        fetch('https://your-netlify-site/.netlify/functions/control-led?action=on')
+        fetch(`${ESP32_IP}/led-on`)
             .then(response => response.text())
             .then(data => document.getElementById("response").innerText = data)
             .catch(error => console.error('Error:', error));
     });
 
     document.getElementById("offButton").addEventListener("click", function() {
-        fetch('https://your-netlify-site/.netlify/functions/control-led?action=off')
+        fetch(`${ESP32_IP}/led-off`)
             .then(response => response.text())
             .then(data => document.getElementById("response").innerText = data)
             .catch(error => console.error('Error:', error));
