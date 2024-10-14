@@ -35,14 +35,14 @@
 
 <script>
     document.getElementById("onButton").addEventListener("click", function() {
-        fetch('https://your-netlify-site/.netlify/functions/control-led?action=on')
+        fetch('http://192.168.1.100/led-on')
             .then(response => response.text())
             .then(data => document.getElementById("response").innerText = data)
             .catch(error => console.error('Error:', error));
     });
 
     document.getElementById("offButton").addEventListener("click", function() {
-        fetch('https://your-netlify-site/.netlify/functions/control-led?action=off')
+        fetch('http://192.168.1.100/led-off')
             .then(response => response.text())
             .then(data => document.getElementById("response").innerText = data)
             .catch(error => console.error('Error:', error));
