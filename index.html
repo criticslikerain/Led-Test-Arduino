@@ -3,66 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Control</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            color: #333;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #007BFF;
-            color: white;
-        }
-        #status {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+    <title>ESP32 Control</title>
 </head>
 <body>
-    <h1>LED Control</h1>
-    <button onclick="toggleLED('on')">Turn ON</button>
-    <button onclick="toggleLED('off')">Turn OFF</button>
-    <div id="status"></div>
+    <h1>Control ESP32</h1>
+    <button onclick="turnOn()">Turn On</button>
+    <button onclick="turnOff()">Turn Off</button>
 
     <script>
-        function toggleLED(state) {
-            fetch(`https://3bc6-122-52-117-231.ngrok-free.app/toggle?state=${state}`)
-                .then(response => response.text())
-                .then(data => {
-                    console.log(data);
-                    document.getElementById('status').innerText = data; // Update status on the page
-                })
-                .catch(error => console.error('Error:', error));
+        const esp32Ip = "YOUR_ESP32_IP"; // Replace with your ESP32 IP address
+
+        function turnOn() {
+            fetch(`http://${esp32Ip}/on`);
         }
 
-        // Optionally, check the status of the LED every few seconds
-        setInterval(() => {
-            fetch(`https://3bc6-122-52-117-231.ngrok-free.app/status`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('status').innerText = data; // Update status
-                })
-                .catch(error => console.error('Error:', error));
-        }, 5000); // Check every 5 seconds
+        function turnOff() {
+            fetch(`http://${esp32Ip}/off`);
+        }
     </script>
 </body>
 </html>
