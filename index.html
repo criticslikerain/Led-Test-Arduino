@@ -45,7 +45,7 @@
 
     <script>
         function toggleLED(state) {
-            fetch(`http://<ESP32_IP_ADDRESS>/toggle?state=${state}`)
+            fetch(`https://3bc6-122-52-117-231.ngrok-free.app/toggle?state=${state}`)
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
@@ -56,7 +56,7 @@
 
         // Optionally, check the status of the LED every few seconds
         setInterval(() => {
-            fetch(`http://<ESP32_IP_ADDRESS>/status`)
+            fetch(`https://3bc6-122-52-117-231.ngrok-free.app/status`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('status').innerText = data; // Update status
