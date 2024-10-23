@@ -3,53 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control LED</title>
+    <title>LED Control</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
         }
-        .container {
-            text-align: center;
+        h1 {
+            color: #333;
         }
         button {
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <h1>LED Control</h1>
+    <button onclick="toggleLED('on')">Turn ON</button>
+    <button onclick="toggleLED('off')">Turn OFF</button>
+    <div id="status"></div>
 
-<div class="container">
-    <h1>Control LED</h1>
-    <button id="onButton">Turn ON</button>
-    <button id="offButton">Turn OFF</button>
-    <p id="response"></p>
-</div>
+    <script>
+        function toggleLED(state) {
+            fetch(`http://<ESP32_IP_ADDRESS>/toggle?state=${state}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    document.getElementById('status').innerText = data; // Update status on the page
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-<script>
-   const ESP32_IP = 'https://4ef2-122-52-117-231.ngrok-free.app';
-
-    document.getElementById("onButton").addEventListener("click", function() {
-        fetch(`${ESP32_IP}/led-on`)
-            .then(response => response.text())
-            .then(data => document.getElementById("response").innerText = data)
-            .catch(error => console.error('Error:', error));
-    });
-
-    document.getElementById("offButton").addEventListener("click", function() {
-        fetch(`${ESP32_IP}/led-off`)
-            .then(response => response.text())
-            .then(data => document.getElementById("response").innerText = data)
-            .catch(error => console.error('Error:', error));
-    });
-</script>
-
+        // Optionally, check the status of the LED every few seconds
+        setInterval(() => {
+            fetch(`http://<ESP32_IP_ADDRESS>/status`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data; // Update status
+                })
+                .catch(error => console.error('Error:', error));
+        }, 5000); // Check every 5 seconds
+    </script>
 </body>
 </html>
